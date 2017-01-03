@@ -1,0 +1,753 @@
+\documentclass[10pt]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[margin=0.5 in]{geometry}
+\begin{document}
+\title{APMA 3080: Linear Algebra with Applications \\ A Comprehensive Guide}
+\author{Eric McCord-Snook}
+\date{\today}
+\maketitle
+\section{Chapter 1: Systems of Linear Equations}
+\subsection{Lines and Linear Equations}
+\begin{enumerate}
+\item \textbf{General Linear Equation}:
+$$a_1x_1 + a_2x_2 + a_3x_3 + ... + a_nx_n = b$$
+With real coefficients $a_i$ and a real constant term $b$. 
+\item \textbf{Solution}:
+$$\begin{bmatrix}
+x_1\\ x_2\\ x_3\\ ...\\ x_n
+\end{bmatrix}$$
+Such that plugging in the values of $x_i$ into the linear equation yields a true statement.
+\item \textbf{Solution Set}: the set of all solution to a linear equation. When an equation has 2 variables, we are in $\mathbb{R}^2$, and the solution set is a line. When an equation has 3 variables, we are in $\mathbb{R}^3$, and the solution set is a plane. When working in the space $\mathbb{R}^n$ with $n \geq 4$, the solution set is a hyper-plane. 
+\item \textbf{System of Linear Equations}
+$$a_{11}x_1 + a_{12}x_2 + ... + a_{1n}x_n = b_1$$
+$$a_{21}x_1 + a_{22}x_2 + ... + a_{2n}x_n = b_2$$
+$$...$$
+$$a_{m1}x_1 + a_{12}x_2 + ... + a_{mn}x_n = b_n$$
+where the solution is again the vector $\vec{x}$, representing either 0, 1, or infinite solutions in the solution set.
+\item \textbf{Consistent}: a linear system that has at least 1 solution--if not, the system is \textbf{inconsistent}.
+\item \textbf{Free Parameter}: a variable that is allowed to be any real number while still remaining a component of a valid solution. Any variable that is not a leading variable has a free parameter, and is known as a \textbf{free variable}.
+\item \textbf{Triangular System}: a system with a leading variable in every column, i.e. $a_{ii} \neq 0$, in descending  stair step pattern.
+\begin{enumerate}
+\item Every variable is the leading variable of exactly 1 equation
+\item There are the same number of equations as variables
+\item There is exactly 1 solution
+\end{enumerate}
+\item \textbf{Echelon Form}: similar to triangular but more broad; diagonal elements can be 0.
+\begin{enumerate}
+\item Every variable is the leading variable of at most one equation
+\item The system is in descending stair-step pattern
+\item Every equation has a leading variable
+\end{enumerate}
+\item \textbf{Back Substitution}: starting with the bottom row in triangular/echelon form, find the value of the variable and then work your way up to the top row, solving for each variable and adding free parameters as necessary.
+\end{enumerate}
+\subsection{Linear Systems and Matrices}
+\begin{enumerate}
+\item \textbf{Matrix Form of a Linear System}: \\
+The linear system
+$$a_{11}x_1 + a_{12}x_2 + ... + a_{1n}x_n = b_1$$
+$$a_{21}x_1 + a_{22}x_2 + ... + a_{2n}x_n = b_2$$
+$$...$$
+$$a_{m1}x_1 + a_{12}x_2 + ... + a_{mn}x_n = b_n$$
+is equivalent to the following in matrix form,
+$$\begin{bmatrix}
+a_{11} & a_{12} & ... & a_{1n} \\
+a_{21} & a_{22} & ... & a_{2n} \\
+. & . & . & . \\
+a_{m1} & a_{m2} & ... & a_{mn} 
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\ x_2\\ ...\\ x_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+b_1\\ b_2\\ ...\\ b_n
+\end{bmatrix}$$
+which can also be written as $A \vec{x} = \vec{b}$, where $A$ is the coefficient matrix, $\vec{b}$ is the set of constants, and $\vec{x}$ is the solution vector to the system.
+\item \textbf{Elementary Row Operations}: Any of these operations can be performed in sequence to turn a matrix into echelon form, reduced row-echelon form, or any other equivalent matrix.
+\begin{enumerate}
+\item Interchange the position of two rows
+\item Multiply an equation by a nonzero constant
+\item Add a multiple of one equation to another
+\end{enumerate}
+\item \textbf{Augmented Matrix}: a matrix that includes as the last column the constant vector $\vec{b}$.
+$$\begin{bmatrix}
+a_{11} & a_{12} & ... & a_{1n} & b_1 \\
+a_{21} & a_{22} & ... & a_{2n} & b_2 \\
+. & . & . & . & . \\
+a_{m1} & a_{m2} & ... & a_{mn} & b_n
+\end{bmatrix}$$
+\item \textbf{Echelon Form of a Matrix}: 
+\begin{enumerate}
+\item Every leading term is in a column to the left of the leading term of the row below it
+\item Any zero rows are at the bottom of the matrix
+\end{enumerate}
+\item \textbf{Pivot}: the \textbf{pivot positions} are those positions in the matrix that contain a leading term, and the \textbf{pivot} is the nonzero number in the pivot position used int row operations to produce zeros. The \textbf{pivot columns} are those that contain pivot positions.
+\item \textbf{Gaussian Elimination}:
+\begin{enumerate}
+\item Begin with augmented matrix
+\item Use the pivots and a sequence of elementary row operations to reduce the matrix to echelon form
+\item Use back substitution to find the solution to the system 
+\end{enumerate}
+\item \textbf{Reduced Row Echelon Form of a Matrix}:
+\begin{enumerate}
+\item Matrix is in echelon form
+\item All pivot positions contain a 1
+\item The only nonzero term in a pivot column is in the pivot position (i.e. the pivot itself)
+\end{enumerate} 
+\item \textbf{Gauss-Jordan Elimination}: an extension of Gaussian elimination whereby we continue using elementary row operations to solve the system and forgo back substitution.
+\begin{enumerate}
+\item Use Gaussian elimination to put the matrix in echelon form
+\item Continue to do more elementary row operations to put the matrix in reduced row echelon form
+\item Read off the solution as the rightmost column vector
+\end{enumerate}
+\item \textbf{Homogeneous Linear System}: A linear system where the constant vector $\vec{b} = \vec{0}$.
+\item \textbf{Trivial Solution}: The solution vector $\vec{x} = \vec{0}$ that is always a solution to the homogeneous system.
+\end{enumerate}
+\section{Chapter 2: Euclidean Space}
+\subsection{Vectors}
+\begin{enumerate}
+\item \textbf{Vector}: an ordered list of real numbers $v_1, v_2, ..., v_n$ expressed as a single column/row matrix, such as the column vector
+$$\vec{v} = \begin{bmatrix} v_1 \\ v_2 \\ ... \\ v_n\end{bmatrix}$$
+or the row vector $\vec{v} = \begin{bmatrix} v_1 & v_2 & ... & v_n\end{bmatrix}$. The set of all vectors with $n$ entries is denoted by $\mathbb{R}^n$.
+\item \textbf{Linear Combination of Vectors}: If $\vec{v_1},\ \vec{v_2},\ ...,\ \vec{v_m}$ are vectors and $c_1,\ c_2,\ ...,\ c_m$ are scalars, then
+$$c_1\vec{v_1} + c_2\vec{v_2} + ... + c_m\vec{v_m}$$
+is a linear combination of the vectors. Note that the scalars can be any real numbers.
+\end{enumerate}
+\subsection{Span}
+\begin{enumerate}
+\item \textbf{Span}: Let $\vec{v_1},\ \vec{v_2},\ ...,\ \vec{v_m}$ be a set of vectors in $\mathbb{R}^n$. The \textbf{span} of this set is denoted $span\lbrace \vec{v_1},\ \vec{v_2},\ ...,\ \vec{v_m} \rbrace$ and is defined to be the set of all linear combinations 
+$$c_1\vec{v_1} + c_2\vec{v_2} + ... + c_m\vec{v_m}$$
+where $c_1,\ c_2,\ ...,\ c_m$ can be any real numbers.
+\item \textbf{How to Tell if a Vector is in the Span of a Set of Vectors}:
+\begin{enumerate}
+\item Set up augmented matrix where each column is a column vector from the set and the final column is the vector we are analyzing
+\item Perform Gaussian elimination and back-substitution or Gauss-Jordan elimination to arrive at a solution
+\item If a solution exists, the vector lies within the span of the set, if not, then it lies outside the span of the set
+\end{enumerate}
+\item \textbf{Number of Vectors Needed to Span $\mathbb{R}^n$}: It is a necessary condition that we have $n$ vectors to span $\mathbb{R}^n$, but just because we have $n$ vectors does not imply that the space is spanned.
+\end{enumerate}
+\subsection{Linear Independence}
+\begin{enumerate}
+\item \textbf{Linear Independence}: Let $\vec{v_1},\ \vec{v_2},\ ...,\ \vec{v_m}$ be a set of vectors in $\mathbb{R}^n$. If the only solution to the vector equation 
+$$x_1\vec{v_1} + x_2\vec{v_2} + ... + x_m\vec{v_m} = \vec{0}$$
+is the trivial solution $\vec{x} = \vec{0}$, then the set $\lbrace \vec{v_1},\ \vec{v_2},\ ...,\ \vec{v_m} \rbrace$ is \textbf{linearly independent}. This is equivalent to saying that none of the vectors in the set can be written as a linear combination of the other vectors. If there are nontrivial solutions, then the set is \textbf{linearly dependent}.
+\item \textbf{Theorems}
+\begin{enumerate}
+\item Any set of vectors containing the zero vector $\vec{0}$ is linearly dependent.
+\item Suppose that $\lbrace \vec{v_1},\ \vec{v_2},\ ...,\ \vec{v_m} \rbrace$ is a set of vectors in $\mathbb{R}^n$. If $n < m$, the set is linearly dependent. (Read: If there are more vectors than there are dimensions to the space, the set is linearly dependent.)
+\item If one of the vectors of a set is in the span of the other vectors, the set is linearly dependent.
+\item If a set of $m$ vectors in $\mathbb{R}^n$ is linearly independent, then there is at most one solution to the equation $A\vec{x} = \vec{b}$.
+\end{enumerate}
+\item \textbf{The Big Theorem Version 1}: \\
+Let $\mathcal{A} = \lbrace \vec{a_1},\ ...,\ \vec{a_n} \rbrace$ be a set of $n$ vectors in $\mathbb{R}^n$, and let $A = \begin{bmatrix}
+\vec{a_1} & ... & \vec{a_n}
+\end{bmatrix}$. Then the following are equivalent:
+\begin{enumerate}
+\item $\mathcal{A}$ spans $\mathbb{R}^n$
+\item $\mathcal{A}$ is linearly independent
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$ in $\mathbb{R}^n$
+\end{enumerate}
+\end{enumerate}
+\section{Chapter 3: Matrices}
+\subsection{Linear Transformations}
+\begin{enumerate}
+\item \textbf{Linear Transformation}: A function $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ is a \textbf{linear transformation} if for all vectors $\vec{u}$ and $\vec{v}$ in $\mathbb{R}^m$ and all scalars $r$ we have
+\begin{enumerate}
+\item Superposition: $T(\vec{u} + \vec{v}) = T(\vec{u}) + T(\vec{v})$
+\item Scalar multiplication: $T(r\vec{u}) = rT(\vec{u})$
+\end{enumerate}
+These can be combined to form a single test to see if a transformation is linear: for all vectors $\vec{u}$ and $\vec{v}$ in $\mathbb{R}^m$ and any scalars $r$ and $s$, $T(r\vec{u} + s\vec{v}) = rT(\vec{u}) + sT(\vec{v})$.
+\item \textbf{Domain}: The domain of $T$ is $\mathbb{R}^m$.
+\item \textbf{Codomain}: The codomain of $T$ is $\mathbb{R}^n$.
+\item \textbf{Image}: For every vector $\vec{v}$ in the domain, the corresponding vector $T(\vec{v})$ in the codomain is the image of $\vec{v}$ under $T$.
+\item \textbf{Range}: The set of all images of vectors $\vec{v}$ in $\mathbb{R}^m$ under $T$ is the range of $T$, denoted by $range(T)$. It is a subset of the codomain of $T$. The range of a transformation is equal to the span of the column vectors of the linear transformation matrix. 
+\item \textbf{Linear Transformation Matrix}: Let $A$ be an $n \times m$ matrix, and define $T(\vec{x}) = A\vec{x}$. Then $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ is a linear transformation. If mapping from one dimension to a second, corresponding matrix has dimensions $second \times first$.
+\item \textbf{One-to-One and Onto Transformations}: \\
+Let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be a linear transformation. Then
+\begin{enumerate}
+\item $T$ is \textbf{one-to-one} if for every vector $\vec{w}$ in $\mathbb{R}^n$ (the codomain) there exists at \textit{most} one vector $\vec{v}$ in $\mathbb{R}^m$ such that $T(\vec{v}) = \vec{w}$. In a one-to-one mapping, the columns of the transformation matrix are linearly independent, and there is a pivot in every column. This is equivalent to saying $T(\vec{x}) = \vec{0}$ has only the trivial solution $\vec{x} = \vec{0}$.
+\item $T$ is \textbf{onto} if for every vector $\vec{w}$ in $\mathbb{R}^n$ (the codomain) there exists at \textit{least} one vector $\vec{v}$ in $\mathbb{R}^m$ such that $T(\vec{v}) = \vec{w}$. In an onto mapping, the columns of the transformation matrix span the codomain $\mathbb{R}^n$, and there is a pivot in every row.
+\end{enumerate}
+\item \textbf{The Big Theorem Version 2}: \\
+Let $\mathcal{A} = \lbrace \vec{a_1},\ ...,\ \vec{a_n} \rbrace$ be a set of $n$ vectors in $\mathbb{R}^n$, let $A = \begin{bmatrix}
+\vec{a_1} & ... & \vec{a_n}
+\end{bmatrix}$, and let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be given by $T(\vec{x}) = A\vec{x}$. Then the following are equivalent:
+\begin{enumerate}
+\item $\mathcal{A}$ spans $\mathbb{R}^n$
+\item $\mathcal{A}$ is linearly independent
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$ in $\mathbb{R}^n$
+\item $T$ is onto
+\item $T$ is one-to-one
+\end{enumerate}
+\end{enumerate}
+\subsection{Matrix Algebra}
+\begin{enumerate}
+\item \textbf{Matrix Multiplication}: Let $A$ be an $n \times k$ matrix and $B$ be a $k \times m$ matrix. Then, the product $AB$ is an $n \times m$ matrix given by
+$$AB = \begin{bmatrix}
+A\vec{b_1} & A\vec{b_2} & ... & A\vec{b_m}
+\end{bmatrix}$$
+\item \textbf{Transpose of a Matrix}: the transpose of an $n \times m$ matrix $A$ is denoted by $A^T$ and results from interchanging the rows and columns of $A$. Several properties include:
+\begin{enumerate}
+\item $(A + B)^T = A^T + B^T$
+\item $(sA)^T = sA^T$
+\item $(AC)^T = C^TA^T$
+\end{enumerate}
+\item \textbf{Diagonal Matrix}: a matrix with zero elements everywhere but the diagonal, where the elements can be zero or nonzero. Diagonal matrices keep their form when raised to a power.
+\item \textbf{Upper Triangular Matrix}: a square matrix with zero elements below the diagonal, while on the diagonal and above elements can be zero or nonzero. Upper triangular matrices keep their form when raised to a power.
+\item \textbf{Lower Triangular Matrix}: a square matrix with zero elements above the diagonal, while on the diagonal and below elements can be zero or nonzero. Lower triangular matrices keep their form when raised to a power.
+\end{enumerate}
+\subsection{Inverses}
+\begin{enumerate}
+\item \textbf{Invertible Transformations}: \\
+A linear transformation $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ is \textbf{invertible} if $T$ is both one-to-one and onto. When $T$ is invertible, the inverse function $T^{-1}:\ \mathbb{R}^n \rightarrow \mathbb{R}^m$ is defined by
+$$T^{-1}(\vec{y}) = \vec{x}\ \ if\ and\ only\ if\ \ T(\vec{x}) = \vec{y}$$
+Note: $T$ only has an inverse if $n = m$ (i.e. the matrix is square).
+\item \textbf{Invertible Matrix}: An $n \times n$ matrix $A$ is \textbf{invertible} if there exists a \textit{unique} $n \times n$ matrix $B$ such that $AB = BA = I_n$, where $I_n$ is the $n \times n$ identity matrix. This matrix $B$ is called the \textbf{inverse} of $A$ and is denoted $A^{-1}$.
+\item \textbf{Invertible Matrix Properties}: Let $A$ and $B$ be invertible $n \times n$ matrices and $C$ and $D$ be $n \times m$ matrices. Then
+\begin{enumerate}
+\item $A^{-1}$ is invertible, with $(A^{-1})^{-1} = A$
+\item $AB$ is invertible, with $(AB)^{-1} = B^{-1}A^{-1}$
+\item If $AC = AD$ then $C = D$
+\item If $AC = 0_{nm}$ then $C = 0_{nm}$
+\end{enumerate}
+\item \textbf{Finding the Inverse of a Matrix}: Let the $n \times n$ matrix $A$ be that which we are taking the inverse of.
+\begin{enumerate}
+\item Form an augmented matrix $\begin{bmatrix}
+A & I_n
+\end{bmatrix}$
+\item Perform a series of row operations that leave you with the augmented matrix $\begin{bmatrix}
+I_n & B
+\end{bmatrix}$
+\item Read the inverse matrix off as $A^{-1} = B$
+\end{enumerate}
+\item \textbf{Quick Formula for $2 \times 2$ Inverses}: \\
+Given matrix $A = \begin{bmatrix}
+a & b \\ c & d
+\end{bmatrix}$, $A^{-1} = \frac{1}{ad-bc}\begin{bmatrix}
+d & -b \\ -c & a
+\end{bmatrix}$
+\item \textbf{Equivalent Statements}: Let $A$ be an $n \times n$ matrix. Then the following are equivalent.
+\begin{enumerate}
+\item $A$ is invertible
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$, given by $\vec{x} = A^{-1}\vec{b}$
+\item $A\vec{x} = \vec{0}$ has only the trivial solution
+\end{enumerate}
+\item \textbf{The Big Theorem Version 3}: \\
+Let $\mathcal{A} = \lbrace \vec{a_1},\ ...,\ \vec{a_n} \rbrace$ be a set of $n$ vectors in $\mathbb{R}^n$,  let $A = \begin{bmatrix}
+\vec{a_1} & ... & \vec{a_n}
+\end{bmatrix}$, and let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be given by $T(\vec{x}) = A\vec{x}$. Then the following are equivalent:
+\begin{enumerate}
+\item $\mathcal{A}$ spans $\mathbb{R}^n$
+\item $\mathcal{A}$ is linearly independent
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$ in $\mathbb{R}^n$
+\item $T$ is onto
+\item $T$ is one-to-one
+\item $A$ is invertible
+\end{enumerate}
+\end{enumerate}
+\subsection{LU Factorization}
+For the time being, this section is abridged. Only elementary matrices were covered and they are all that were required for the exam.
+\begin{enumerate}
+\item \textbf{Elementary Matrices}: Matrices formed by performing elementary row operations on the $n \times n$ identity matrix. These can then be multiplied by the original matrix, yielding the same matrix that would have resulted had the elementary row operation been done on the original matrix.
+\end{enumerate}
+\subsection{Markov Chains}
+\begin{enumerate}
+\item \textbf{Stochastic Matrix}: A square matrix with nonnegative entries and columns that each add to 1. If the rows also add to 1, then it is termed a doubly stochastic matrix.
+\item \textbf{State Vector}: Each vector in a sequence generated by multiplying the stochastic matrix by the previous state vector. The first state vector is the initial state vector which represents the initial state of the system. These vectors generally represent probabilities, which is why they are called probability vectors, as defined below.
+\item \textbf{Probability Vector}: Any vector that has nonnegative that add up to 1. A stochastic matrix is made up of n columns that are n-dimensional probability vectors.
+\item \textbf{Markov Chains}: A sequence of state vectors generated by continued multiplication by the stochastic matrix.
+\item \textbf{Steady-State Vector}: For a stochastic matrix $A$, the vector that the associated Markov chain converges to.
+\item \textbf{Finding Steady-State Vectors}: Because the steady state vector will satisfy $A\vec{x} = \vec{x}$, we have that $A\vec{x} - I\vec{x} = \vec{0}$. Solve the homogeneous system $(A-I)\vec{x} = \vec{0}$ to find the steady-state vector.
+\item \textbf{Properties of Stochastic Matrices}: Let $A$ be an $n \times n$ stochastic matrix and $\vec{x_0}$ be a probability vector. Then we have each of the following.
+\begin{enumerate}
+\item If $\vec{x}_{i+1} = A\vec{x}_i$ for $i = 0,1,2,...,$ then each of $\vec{x_1},\vec{x_2},...$ in the Markov chain is a probability vector.
+\item If $B$ is another $n \times n$ stochastic matrix, then the product $AB$ is also an $n \times n$ stochastic matrix.
+\item For each of $i = 2,3,4,...,\ A^i$ is an $n \times n$ stochastic matrix.
+\end{enumerate}
+\item \textbf{Regular Matrix}: Any stochastic matrix $A$ such that for some integer $k \geq 1$, the matrix $A^k$ has strictly positive ($> 0$) entries.
+\item \textbf{Regular Matrix Theorem}: Let $A$ be a regular stochastic matrix. Then we have each of the following.
+\begin{enumerate}
+\item For any initial state vector $\vec{x}_0$, the Markov chain $\vec{x}_0,\vec{x}_1,\vec{x}_2,...$ converges to a unique steady-state vector $\vec{x}$.
+\item The sequence $A,\ A^2,\ A^3,\ ...$ converges to the matrix $\begin{bmatrix}
+\vec{x} & \vec{x} & ... & \vec{x}
+\end{bmatrix}$, where $\vec{x}$ is the unique steady-state vector given in part (a).
+\end{enumerate}
+\end{enumerate}
+\section{Chapter 4: Subspaces}
+\subsection{Introduction to Subspaces}
+\begin{enumerate}
+\item \textbf{Subspace}: A subset $S$ of $\mathbb{R}^n$ is a \textbf{subspace} if $S$ satisfies the following three conditions:
+\begin{enumerate}
+\item $S$ contains $\vec{0}$, the zero vector
+\item If $\vec{u}$ and $\vec{v}$ are in $S$, then $\vec{u} + \vec{v}$ is also in $S$
+\item If $r$ is a real number and $\vec{u}$ is in $S$, then $r\vec{u}$ is also in $S$
+\end{enumerate}
+To check if a subset is a subspace, we first check to see that it contains the zero vector, then we try to see if it can be generated by a set of vectors. Then we try to verify that the conditions (b) and (c) above are met for an arbitrary element of the subset. Otherwise, we look for a counterexample that shows that a vector in S doesn't satisfy either property (b) or (c) above. 
+\item \textbf{Null Space}: If $A$ is an $n \times m$ matrix, then the set of solutions to the homogeneous linear system $A\vec{x} = \vec{0}$ forms a subspace of $\mathbb{R}^m$ which is termed the \textbf{null space} of $A$ and is denoted by $null(A)$.
+\item \textbf{Kernel of a Transformation}: Let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be a linear transformation. Then the \textbf{kernel} of $T$ is a subspace of the domain $\mathbb{R}^m$ and the range of $T$ is a subspace of the codomain $\mathbb{R}^n$. The kernel of $T$ is the set of vectors $\vec{x}$ such that $T(\vec{x}) = \vec{0}$. The kernel of $T$ is denoted by $ker(T)$ and is equivalent to $null(A)$ for the associated linear transformation matrix $A$. 
+\item \textbf{The Big Theorem Version 4}: \\
+Let $\mathcal{A} = \lbrace \vec{a_1},\ ...,\ \vec{a_n} \rbrace$ be a set of $n$ vectors in $\mathbb{R}^n$, let $A = \begin{bmatrix}
+\vec{a_1} & ... & \vec{a_n}
+\end{bmatrix}$, and let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be given by $T(\vec{x}) = A\vec{x}$. Then the following are equivalent:
+\begin{enumerate}
+\item $\mathcal{A}$ spans $\mathbb{R}^n$
+\item $\mathcal{A}$ is linearly independent
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$ in $\mathbb{R}^n$
+\item $T$ is onto
+\item $T$ is one-to-one
+\item $A$ is invertible
+\item $ker(T) = \lbrace \vec{0} \rbrace$
+\end{enumerate}
+\end{enumerate}
+\subsection{Basis and Dimension}
+\begin{enumerate}
+\item \textbf{Basis}: A set $\mathcal{B} = \lbrace \vec{u_1},\ ...,\ \vec{u_n} \rbrace$ is a \textbf{basis} for a subspace $S$ if 
+\begin{enumerate}
+\item $\mathcal{B}$ spans $S$
+\item $\mathcal{B}$ is linearly independent
+\end{enumerate}
+Every vector in a subspace can be written as a linear combination of the basis vectors in exactly one way.
+\item \textbf{Finding a Basis}: \\
+Theorem: If two matrices are equivalent, the subspace spanned by their rows is the same. Remember, equivalent matrices are matrices that can be transformed to one another by a series of elementary row operations. We are trying to find a basis from a spanning set in method 1.
+\begin{enumerate}
+\item \textbf{Method 1}:
+\begin{enumerate}
+\item Use the vectors from the spanning set to form the rows of a matrix $A$
+\item Transform $A$ into echelon form, calling this matrix $B$
+\item The nonzero rows of $B$ give a basis for $S$
+\end{enumerate}
+Theorem: Suppose that $U$ and $V$ are two equivalent matrices. Then, any linear dependence that exists among the column vectors in $U$ also exist among the column vectors in $V$. Again, we are trying to find a basis from a spanning set in method 2.
+\item \textbf{Method 2}:
+\begin{enumerate}
+\item Use the vectors from the spanning set to form the columns of a matrix $A$
+\item Transform $A$ into echelon form, calling this matrix $B$; the pivot columns of $B$ will be linearly independent, and the other columns will be linearly dependent on the pivot columns
+\item The columns of $A$ corresponding to the pivot columns of $B$ form a basis for $S$
+\end{enumerate}
+\end{enumerate}
+\item \textbf{Dimension}: Let $S$ be a subspace of $\mathbb{R}^n$. Then, the \textbf{dimension} of $S$ is the number of vectors in any basis of $S$. Note, every basis of $S$ has the same number of vectors. The zero subspace $S=\lbrace \vec{0} \rbrace$ has no basis and has dimension 0.
+\item \textbf{Rank}: The \textbf{rank} of a matrix $A$ is the dimension of the row or column space of $A$, and is denoted by $rank(A)$. Note that $rank(A) = dim(col(A)) = dim(row(A))$.
+\item \textbf{Vectors Forming a Basis}: Let $\mathcal{U} = \lbrace \vec{u_1},\ ...,\ \vec{u_m} \rbrace$ be a set of vectors in a subspace $S \neq \lbrace \vec{0} \rbrace$ of $\mathbb{R}^n$.
+\begin{enumerate}
+\item If $\mathcal{U}$ is linearly independent then either $\mathcal{U}$ is a basis for $S$ or additional vectors can be added to $\mathcal{U}$ to form a basis for $S$. To add vectors to form a basis for the subspace, one can add the standard basis vectors (i.e. the unit vectors like $\begin{bmatrix}
+1 \\ 0
+\end{bmatrix}$ and $\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}$) to the set and then perform Method 2 above to eliminate the unnecessary vectors. 
+\item If $\mathcal{U}$ spans $S$, then either $\mathcal{U}$ is a basis for $S$ or vectors can be removed from $\mathcal{U}$ to form a basis for $S$. To find a basis by eliminating some of the vectors in $\mathcal{U}$, one can directly use Method 2 from above.
+\end{enumerate}
+\item \textbf{Nullity}: the \textbf{nullity} of a matrix $A$ is the dimension of the null space of $A$ and is denoted by $nullity(A)$.
+\item \textbf{Rank-Nullity Theorem}: $rank(A) + nullity(A) = m$, where $m$ is the number of columns in $A$.
+\item \textbf{The Big Theorem Version 5}: \\
+Let $\mathcal{A} = \lbrace \vec{a_1},\ ...,\ \vec{a_n} \rbrace$ be a set of $n$ vectors in $\mathbb{R}^n$, let $A = \begin{bmatrix}
+\vec{a_1} & ... & \vec{a_n}
+\end{bmatrix}$, and let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be given by $T(\vec{x}) = A\vec{x}$. Then the following are equivalent:
+\begin{enumerate}
+\item $\mathcal{A}$ spans $\mathbb{R}^n$
+\item $\mathcal{A}$ is linearly independent
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$ in $\mathbb{R}^n$
+\item $T$ is onto
+\item $T$ is one-to-one
+\item $A$ is invertible
+\item $ker(T) = \lbrace \vec{0} \rbrace$
+\item $\mathcal{A}$ is a basis for $\mathbb{R}^n$
+\end{enumerate}
+\end{enumerate}
+\subsection{Row and Column Spaces}
+\begin{enumerate}
+\item \textbf{Row Space}: For an $n \times m$ matrix $A$, the subspace of $R^m$ spanned by the row vectors of $A$ denoted by $row(A)$.
+\item \textbf{Column Space}: For an $n \times m$ matrix $A$, the subspace of $R^n$ spanned by the column vectors of $A$ denoted by $col(A)$.
+\item \textbf{Theorem for Finding Basis of Spaces}: Let $A$ be a matrix and $B$ an echelon form of $A$, then
+\begin{enumerate}
+\item The nonzero rows of $B$ form a basis for $row(A)$
+\item The columns of $A$ corresponding to the pivot columns of $B$ form a basis for $col(A)$.
+\end{enumerate}
+\item \textbf{The Big Theorem Version 6}: \\
+Let $\mathcal{A} = \lbrace \vec{a_1},\ ...,\ \vec{a_n} \rbrace$ be a set of $n$ vectors in $\mathbb{R}^n$, let $A = \begin{bmatrix}
+\vec{a_1} & ... & \vec{a_n}
+\end{bmatrix}$, and let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be given by $T(\vec{x}) = A\vec{x}$. Then the following are equivalent:
+\begin{enumerate}
+\item $\mathcal{A}$ spans $\mathbb{R}^n$
+\item $\mathcal{A}$ is linearly independent
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$ in $\mathbb{R}^n$
+\item $T$ is onto
+\item $T$ is one-to-one
+\item $A$ is invertible
+\item $ker(T) = \lbrace \vec{0} \rbrace$
+\item $\mathcal{A}$ is a basis for $\mathbb{R}^n$
+\item $col(A) = \mathbb{R}^n$
+\item $row(A) = \mathbb{R}^n$
+\item $rank(A) = n = m$, and $nullity(A) = 0$
+\end{enumerate}
+\end{enumerate}
+\section{Chapter 5: Determinants}
+\subsection{The Determinant Function}
+\begin{enumerate}
+\item \textbf{Simple Matrices}: For a $1 \times 1$ matrix $[a]$, the determinant is simply the element $a$. For a $2 \times 2$ matrix 
+$A = \begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{bmatrix}$, the determinant $det(A) = |A| = a_{11}a_{22} - a_{12}a_{21}$.
+\item \textbf{Minor}: If $A$ is an $n \times n$ matrix, then $M_{ij}$ denotes the $(n-1) \times (n-1)$ matrix that we get from $A$ after deleting the row and column containing $a_{ij}$. The determinant $det(M_{ij})$ is called the minor of $a_{ij}$.
+\item \textbf{Cofactor}: the signed minor given by $C_{ij} = (-1)^{i+j}det(M_{ij})$.	
+\item \textbf{Finding a Determinant}: To find the determinant of a matrix you take the sum of products of any row or column and the associated cofactors. This is known as taking the cofactor expansion of the matrix, and it is a recursive process.
+\item \textbf{Invertible Matrices}: A square matrix $A$ is invertible if and only if $det(A) \neq 0$.
+\item \textbf{The Big Theorem Version 7}: \\
+Let $\mathcal{A} = \lbrace \vec{a_1},\ ...,\ \vec{a_n} \rbrace$ be a set of $n$ vectors in $\mathbb{R}^n$, let $A = \begin{bmatrix}
+\vec{a_1} & ... & \vec{a_n}
+\end{bmatrix}$, and let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be given by $T(\vec{x}) = A\vec{x}$. Then the following are equivalent:
+\begin{enumerate}
+\item $\mathcal{A}$ spans $\mathbb{R}^n$
+\item $\mathcal{A}$ is linearly independent
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$ in $\mathbb{R}^n$
+\item $T$ is onto
+\item $T$ is one-to-one
+\item $A$ is invertible
+\item $ker(T) = \lbrace \vec{0} \rbrace$
+\item $\mathcal{A}$ is a basis for $\mathbb{R}^n$
+\item $col(A) = \mathbb{R}^n$
+\item $row(A) = \mathbb{R}^n$
+\item $rank(A) = n$, and $nullity(A) = 0$
+\item $det(A) \neq 0$
+\end{enumerate}
+\item \textbf{Square Triangular Matrices}: The determinant of a square triangular matrix is the product of the terms along the diagonal.
+\item \textbf{Theorems}: For a square matrix $A$, $det(A^T) = det (A)$. If $A$ has a row or column of zeros, or two identical rows or columns, then $det(A) = 0$. If $A$ and $B$ are both $n \times n$ matrices, then $det(AB) = det(A)det(B)$.
+\end{enumerate}
+\subsection{Properties of the Determinant}
+\begin{enumerate}
+\item \textbf{Determinant Properties}: Let $A$ be a square matrix. Then we have the following properties:
+\begin{enumerate}
+\item If $B$ is produced by interchanging two rows of $A$, then $det(A) = -det(B)$.
+\item If $B$ is produced by multiplying a row of $A$ by $c$, then $det(A) = \frac{det(B)}{c}$.
+\item If $B$ is produced by adding a multiple of one row to another row, then $det(A) = det(B)$.
+\item Even though for two square matrices $AB \neq BA$ in general, it is the case that $det(AB) = det(BA)$. 
+\item If $A$ is an invertible matrix, then $det(A^{-1}) = \frac{1}{det(A)}$.
+\end{enumerate}
+\end{enumerate}
+\subsection{Applications of the Determinant}
+\begin{enumerate}
+\item \textbf{Cramer's Rule}:Let $A$ be an invertible $n \times n$ matrix. Then the components of the unique solution $\vec{x}$ to $A\vec{x} = \vec{b}$ are given by 
+$$\vec{x}_i = \frac{det(A_i)}{det(A)}\ for\ i = 1,2,...,n$$
+where $A_i$ is formed by replacing the $i^{th}$ column with $\vec{b}$.
+\item \textbf{Cofactor Matrix}: For a square matrix $A$, simply the matrix where each element is replaced with its corresponding cofactor. (i.e. $a_{11} = C_{11}$, etc.) 
+\item \textbf{Adjoint Matrix}: The transpose of the Cofactor matrix, denoted by $adj(A) = C^T$.
+\item \textbf{Inverses from Determinants}: If $A$ is an invertible matrix, then $A^{-1} = \frac{1}{det(A)}adj(A)$.
+\item \textbf{Area and Determinants}: Let $\mathcal{S}$ be the unit square in the first quadrant of $\mathbb{R}^2$, and let $T:\ \mathbb{R}^2 \mapsto \mathbb{R}^2$ with $T(\vec{x}) = A\vec{x}$. If $\mathcal{P} = T(\mathcal{S})$ is the image of $\mathcal{S}$ under $T$, then $area(\mathcal{P}) = |det(A)|$. Note that we take the absolute value of the determinant to find the area, so don't worry if the determinant is negative.
+\item \textbf{More General Areas}: Let $\mathcal{D}$ be a region of finite area in $\mathbb{R}^2$, and suppose that $T:\ \mathbb{R}^2 \mapsto \mathbb{R}^2$ with $T(\vec{x}) = A\vec{x}$. If $T(\mathcal{D})$ denotes the image of $\mathcal{D}$ under $T$ then $area(T(\mathcal{D})) = |det(A)| \cdot area(\mathcal{D})$.
+\item \textbf{General Volumes}: Let $\mathcal{D}$ be a region of finite volume in $\mathbb{R}^n$, and suppose that $T:\ \mathbb{R}^n \mapsto \mathbb{R}^n$ with $T(\vec{x}) = A\vec{x}$. If $T(\mathcal{D})$ denotes the image of $\mathcal{D}$ under $T$ then $volume(T(\mathcal{D})) = |det(A)| \cdot volume(\mathcal{D})$. Note, here we are discussing volumes in $\mathbb{R}^n$, not just the intuitive $\mathbb{R}^3$. This formula works for volumes in Euclidean spaces of arbitrary dimension.
+\end{enumerate}
+\section{Chapter 6: Eigenvalues and Eigenvectors}
+\subsection{Eigenvalues and Eigenvectors}
+\begin{enumerate}
+\item \textbf{Eigenvalues, Eigenvectors, and Eigenspaces}: Let $A$ be an $n \times n$ matrix. Then a \textit{nonzero} vector $\vec{u}$ is an eigenvector of A if there exists a scalar $\lambda$ such that $A\vec{u} = \lambda\vec{u}$. The scalar $\lambda$ is called an eigenvalue of $A$. For any scalar $c \neq 0$, $c\vec{u}$ is also an eigenvector of $A$ with the same eigenvalue $\lambda$. The subspace of all eigenvectors associated $\lambda$, together with the zero vector, is called the eigenspace of $\lambda$.
+\item \textbf{Finding Eigenvalues and Eigenvectors}: Letting $A$ be an $n \times n$ matrix, $\lambda$ is an eigenvalue of $A$ if and only if $det(A - \lambda I_n) = 0$.
+\item \textbf{Characteristic Polynomial and Equation}: The polynomial that we get from $det(A - \lambda I_n)$ is called the characteristic polynomial of $A$, and the equation $det(A - \lambda I_n) = 0$ is called the characteristic equation. The eigenvalues of $A$ are given by the real roots of the characteristic equation. Complex roots can also be considered, but they were not covered in this class. 
+\item \textbf{Multiplicity}: In general, for a polynomial $P(x)$, a root $\alpha$ of $P(x) = 0$ has multiplicity $r$ if $P(x) - (x - \alpha)^rQ(x)$ with $Q(\alpha) \neq 0$. When discussing eigenvalues, the phrase ``$\lambda$ has multiplicity $r$'' means that $\lambda$ is a root of the characteristic polynomial with multiplicity $r$. The dimension of the eigenspace associated with eigenvalue $\lambda$ is less than or equal to the multiplicity of $\lambda$. 
+\item \textbf{The Big Theorem Version 8}: \\
+Let $\mathcal{A} = \lbrace \vec{a_1},\ ...,\ \vec{a_n} \rbrace$ be a set of $n$ vectors in $\mathbb{R}^n$, let $A = \begin{bmatrix}
+\vec{a_1} & ... & \vec{a_n}
+\end{bmatrix}$, and let $T:\ \mathbb{R}^m \rightarrow \mathbb{R}^n$ be given by $T(\vec{x}) = A\vec{x}$. Then the following are equivalent:
+\begin{enumerate}
+\item $\mathcal{A}$ spans $\mathbb{R}^n$
+\item $\mathcal{A}$ is linearly independent
+\item $A\vec{x} = \vec{b}$ has a unique solution for all $\vec{b}$ in $\mathbb{R}^n$
+\item $T$ is onto
+\item $T$ is one-to-one
+\item $A$ is invertible
+\item $ker(T) = \lbrace \vec{0} \rbrace$
+\item $\mathcal{A}$ is a basis for $\mathbb{R}^n$
+\item $col(A) = \mathbb{R}^n$
+\item $row(A) = \mathbb{R}^n$
+\item $rank(A) = n$, and $nullity(A) = 0$
+\item $det(A) \neq 0$
+\item $\lambda = 0$ is not an eigenvalue of $A$
+\end{enumerate}
+\end{enumerate}
+\subsection{Approximation Methods}
+This section was not covered.
+\subsection{Change of Basis}
+\begin{enumerate}
+\item \textbf{Coordinate Vector with Respect to a Basis $\mathcal{B}$}: Suppose that $\mathcal{B}= \lbrace \vec{u}_1,...,\vec{u}_n \rbrace$ forms a basis for $\mathbb{R}^n$. If $\vec{y} = y_1\vec{u}_1 + ... + y_n\vec{u}_n$, then we write $\vec{y}_\mathcal{B} = \begin{bmatrix}
+y_1 \\ \vdots \\ y_n
+\end{bmatrix}_\mathcal{B}$ for the coordinate vector of $\vec{y}$ with respect to $\mathcal{B}$.
+\item \textbf{Change of Basis Matrix}: A matrix that allows us to switch from a basis $\mathcal{B}$ to the standard basis $\mathcal{S}$. This matrix $U$ has as its columns the basis vectors of $\mathcal{B}$.
+\item \textbf{Changing to and from the Standard Basis}: Let $\vec{x}$ be expressed with respect to the standard basis, and let $\mathcal{B}= \lbrace \vec{u}_1,...,\vec{u}_n \rbrace$ be any basis for $\mathbb{R}^n$. If $U = \begin{bmatrix}
+\vec{u}_1 & ... & \vec{u}_n
+\end{bmatrix}$, then 
+\begin{enumerate}
+\item $\vec{x} = U\vec{x}_\mathcal{B}$
+\item $\vec{x}_\mathcal{B} = U^{-1}\vec{x}$
+\end{enumerate}
+\item \textbf{Converting Between Two Nonstandard Bases}: Let $\mathcal{B}_1 = \lbrace \vec{u}_1,...,\vec{u}_n \rbrace$ and $\mathcal{B}_2 = \lbrace \vec{v}_1,...,\vec{v}_n \rbrace$ be bases for $\mathbb{R}^n$. If $U = \begin{bmatrix}
+\vec{u}_1 & ... & \vec{u}_n
+\end{bmatrix}$ and $\begin{bmatrix}
+\vec{v}_1 & ... & \vec{v}_n
+\end{bmatrix}$ then
+\begin{enumerate}
+\item $\vec{x}_{\mathcal{B}_2} = V^{-1}U\vec{x}_{\mathcal{B}_1}$
+\item $\vec{x}_{\mathcal{B}_1} = U^{-1}V\vec{x}_{\mathcal{B}_2}$
+\end{enumerate}
+\item \textbf{Change of Basis in Subspaces}: The reason we can no longer use the formula above with subspaces is that the change of base matrices are no longer square and are thus not invertible. Instead, let $S$ be a subspace of $\mathbb{R}^n$ with bases $\mathcal{B}_1 = \lbrace \vec{u}_1,...,\vec{u}_k \rbrace$ and $\mathcal{B}_2 = \lbrace \vec{v}_1,...,\vec{v}_k \rbrace$. If we define a matrix $C = \begin{bmatrix}
+[\vec{u}_1]_{\mathcal{B}_2} & ... & [\vec{u}_k]_{\mathcal{B}_2}
+\end{bmatrix}$ then $\vec{x}_{\mathcal{B}_2} = C\vec{x}_{\mathcal{B}_1}$. To find a basis vector in one basis in terms of the other basis, just solve the equation $\vec{u}_i = c_1\vec{v}_1 + ... + c_k\vec{v_k}$ and this will become your new vector $[\vec{u}_i]_{\mathcal{B}_2}$.
+\end{enumerate}
+\subsection{Diagonalization}
+\begin{enumerate}
+\item \textbf{Diagonalizable Matrix}: An $n \times n$ matrix $A$ is diagonalizable if there exist $n \times n$ matrices $D$ and $P$, with $D$ diagonal and $P$ invertible such that $A = PDP^{-1}$.
+\item \textbf{Diagonalizing an $n \times n$ Matrix $A$}: Find the eigenvalues and the associated linearly independent eigevectors of $A$. Then, 
+\begin{enumerate}
+\item If $A$ has $n$ linearly independent eigenvectors, $\vec{u}_1, ..., \vec{u}_n$, then $A$ is diagonalizable, with $P = \begin{bmatrix}
+\vec{u}_1 & ... & \vec{u}_n
+\end{bmatrix}$ and the diagonal entries of $D$ are given by the corresponding eigenvalues.
+\item If there are not $n$ linearly independent eigenvectors, then $A$ is not diagonalizable.
+\item If $\lbrace \lambda_1,...,\lambda_k \rbrace$ are distinct eigenvalues of a matrix $A$, then a set of associated eigenvectors $\lbrace \vec{u}_1,...,\vec{u}_k \rbrace$ is linearly independent.
+\end{enumerate}
+\item \textbf{Theorem}: If a matrix has only real eigenvalues, then it is diagonalizable if and only if the dimension of each eigenspace is equal to the multiplicity of the corresponding eigenvalue. If an $n \times n$ matrix $A$ has $n$ distinct real eigenvalues, then $A$ is diagonalizable.
+\item \textbf{Matrix Powers}: If a matrix $A$ is diagonalizable, then $A^k = PD^kP^{-1}$, which is much easier to calculate than $A^k$ explicitly.
+\end{enumerate}
+\section{Chapter 7: Vector Spaces}
+\subsection{Vector Spaces and Subspaces}
+\begin{enumerate}
+\item \textbf{Vector Space}: A vector space consists of a set $V$ of vectors together with operations of addition and scalar multiplication on the vectors that satisfy each of the following:
+\begin{enumerate}
+\item $V$ is closed under addition
+\item $V$ is closed under scalar multiplication
+\item There exists a zero vector in $V$ which is unique
+\item For every vector in $V$ there exists a unique additive inverse such that when you sum the vector and its inverse you get the zero vector
+\item Vector addition is commutative, and associative; scalar multiplication is distributive (both with 1 scalar and 2 summed scalars) and associative; and multiplying a vector by 1 yields the original vector
+\end{enumerate}
+\item \textbf{Some Common Vector Spaces}: 
+\begin{enumerate}
+\item Euclidean space $\mathbb{R}^n$ with standard addition and scalar multiplication of vectors ($\mathbb{R}^\infty$ represents the set of all infinite sequences of real numbers)
+\item $\mathbb{P}^n$, the set of polynomials with real coefficients and degree no greater than $n$, together with the usual addition and scalar multiplication of polynomials ($\mathbb{P}$ with no superscript just denotes polynomials of any degree)
+\item $\mathbb{R}^{m \times n}$, the set of real $m \times n$ matrices together with the usual addition and scalar multiplication of matrices
+\item $C[a,b]$, the set of real-valued continuous functions on the interval $[a,b]$, together with the usual addition and scalar multiplication of functions
+\item $C[\mathbb{R}]$, the set of real-valued continuous functions on the real numbers $\mathbb{R}$, together with the usual addition and scalar multiplication of functions
+\item $T(m,n)$, the set of linear transformations $T: \mathbb{R}^m \mapsto \mathbb{R}^n$, together with the usual addition and scalar multiplication of functions
+\end{enumerate}
+\item \textbf{Subspaces}: A subset $S$ of a vector space $V$ is a subspace if $S$ satisfies the following three conditions:
+\begin{enumerate}
+\item $S$ contains $\vec{0}$, the zero vector
+\item The vectors in $S$ are closed under addition
+\item The vectors in $S$ are closed under scalar multiplication
+\end{enumerate}
+\item \textbf{Trivial Subspaces}: For a vector space $V$, the sets $S = \lbrace \vec{0} \rbrace$ and $S = V$ are both subspaces of $V$ known as the trivial subspaces.
+\end{enumerate}
+\subsection{Span and Linear Independence}
+\begin{enumerate}
+\item \textbf{Span}: The span of a set of vectors is defined the same way as it was in Chapter 2. Note, if a set consists of infinitely many vectors, then we define its span to be the set of all linear  combinations of finite subsets of the set. The span of a set of vectors in a vector space is a subspace of that vector space.
+\item \textbf{Linear Independence}: Defined the same way it was in Chapter 2, that the only linear combination of vectors to give the zero vector is the trivial solution. Remember, any set of vectors containing the zero vector is linearly dependent. A set of nonzero vectors is linearly dependent if and only if one vector in the set is in the span of the others.
+\end{enumerate}
+\subsection{Basis and Dimension}
+\begin{enumerate}
+\item \textbf{Basis}: A set of vectors is a basis for a vector space if it is linearly independent and spans the vector space. Every vector in the vector space can then be written as a unique linear combination of the basis vectors. Because a basis is a linearly independent spanning set, any basis of a vector space will have the same dimension, as defined below.
+\item \textbf{Dimension}: The dimension of a vector space is equal to the number of vectors in any basis of the vector space. If the basis has infinitely many vectors, we say that the dimension is infinite. 
+\item \textbf{Basis Theorem}: If a set $\mathcal{V}$ is a subset of a nontrivial finite-dimensional vector space $V$, then 
+\begin{enumerate}
+\item If $\mathcal{V}$ spans $V$, then either $\mathcal{V}$ is a basis for $V$ or vectors can be removed from $\mathcal{V}$ to form a basis for $V$.
+\item If $\mathcal{V}$ is linearly independent, then either $\mathcal{V}$ is a basis for $V$ or vectors can be added to $\mathcal{V}$ to form a basis for $V$.
+\end{enumerate}
+\item \textbf{Theorem}: If a subset of $n$ vectors from a vector space of dimension $n$ is linearly independent or spans the vector space, then they form a basis for that vector space.
+\end{enumerate}
+\section{Chapter 8: Orthogonality}
+\subsection{Dot Products and Orthogonal Sets}
+\begin{enumerate}
+\item \textbf{Dot Product}: Given two vectors $\vec{u}$ and $\vec{v}$, both in $\mathbb{R}^n$, the dot product $\vec{u} \cdot \vec{v} = u_1v_1 + u_2v_2 + ... + u_nv_n$.
+\item \textbf{Dot Product Properties}: Given vectors $\vec{u}$, $\vec{v}$, and $\vec{w}$ in $\mathbb{R}^n$, and a scalar $c$, then 
+\begin{enumerate}
+\item $\vec{u} \cdot \vec{v} = \vec{v} \cdot \vec{u}$
+\item $(\vec{u} + \vec{v}) \cdot \vec{w} = \vec{u} \cdot \vec{w} + \vec{v} \cdot \vec{w}$
+\item $(c\vec{u}) \cdot \vec{v} = \vec{u} \cdot (c\vec{v}) = c(\vec{u} \cdot \vec{v})$
+\item $\vec{u} \cdot \vec{u} \geq 0$, and $\vec{u} \cdot \vec{u} = 0$ only when $\vec{u} = \vec{0}$
+\end{enumerate}
+\item \textbf{Norm of a Vector}: The norm, length, or magnitude of a vector $\vec{x}$ is given by $||\vec{x}|| = \sqrt{\vec{x} \cdot \vec{x}}$.
+\item \textbf{Distance between Vectors}: For two vectors $\vec{u}$ and $\vec{v}$ in $\mathbb{R}^n$, the distance between $\vec{u}$ and $\vec{v}$ is given by $||\vec{u} - \vec{v}||$.
+\item \textbf{Orthogonal Vectors}: Vectors $\vec{u}$ and $\vec{v}$ are orthogonal if $\vec{u} \cdot \vec{v} = 0$.
+\item \textbf{Pythagorean Theorem}: Suppose that vectors $\vec{u}$ and $\vec{v}$ are in $\mathbb{R}^n$. Then $||\vec{u} + \vec{v}||^2 = ||\vec{u}||^2 + ||\vec{v}||^2$ if and only if $\vec{u} \cdot \vec{v} = 0$.
+\item \textbf{Orthogonal Complement}: Let $S$ be a subspace of $\mathbb{R}^n$. A vector $\vec{u}$ is orthogonal to $S$ if $\vec{u} \cdot \vec{s} = 0$ for every vector $\vec{s}$ in $S$. The set of all such vectors $\vec{u}$ is called the orthogonal complement of $S$ and is denoted by $S^\perp$. Note, if $S$ is a subspace of $\mathbb{R}^n$, then so is $S^\perp$.
+\item \textbf{Finding the Orthogonal Complement}: Let $\mathcal{S} = \lbrace \vec{s}_1,...,\vec{s}_k \rbrace$ be a basis for a subspace $S$ and $\vec{u}$ be a vector. Then $\vec{u} \cdot \vec{s}_i = 0$ for $i = 1,2,...,k$ if and only if $\vec{u}$ is in $S^\perp$. To find the orthogonal complement, then, solve the system of equations where the dot product of a vector with each of the basis vectors gives 0, and the solution (doesn't have to be unique) will give a basis for the orthogonal complement.
+\item \textbf{Orthogonal Sets}: A set of vectors $\mathcal{V}$ in $\mathbb{R}^n$ forms an orthogonal set if $\vec{v}_i \cdot \vec{v}_j = 0$ for all $\vec{v}_i$ and $\vec{v}_j$ in $\mathcal{V}$ with $i \neq j$. An orthogonal set of nonzero vectors is linearly independent.
+\item \textbf{Orthogonal Basis}: A basis for a vector space or subspace made up of an orthogonal set of vectors.
+\item \textbf{Orthogonal Basis Theorem}: Let $S$ be a subspace with an orthogonal basis $\lbrace \vec{s}_1,...,\vec{s}_k \rbrace$. Then any vector $\vec{s}$ in $S$ can be written as $\vec{s} = c_1\vec{s}_1 + ... + c_k\vec{s}_k$, where $c_i = \frac{\vec{s}_i \cdot \vec{s}}{||\vec{s}_i||^2}$ for $i = 1,2,...,k$. 
+\end{enumerate}
+\subsection{Projection and the Gram-Schmidt Process}
+\begin{enumerate}
+\item \textbf{Projection Onto a Vector}: Let $\vec{u}$ and $\vec{v}$ be vectors in $\mathbb{R}^n$, with $\vec{v}$ nonzero. Then the projection of $\vec{u}$ onto $\vec{v}$ is given by $proj_{\vec{v}}\vec{u} = \frac{\vec{v} \cdot \vec{u}}{||\vec{v}||^2}\vec{v}$.
+\item \textbf{Vector Projection Properties}: Let $\vec{u}$ and $\vec{v}$ be vectors in $\mathbb{R}^n$ ($\vec{v}$ nonzero) and $c$ be a nonzero scalar. Then
+\begin{enumerate}
+\item $proj_{\vec{v}}\vec{u}$ is in $span \lbrace \vec{v} \rbrace$
+\item $\vec{u} - proj_{\vec{v}}\vec{u}$ is orthogonal to $\vec{v}$
+\item If $\vec{u}$ is in $span \lbrace \vec{v} \rbrace$, then $\vec{u} = proj_{\vec{v}}\vec{u}$
+\item $proj_{\vec{v}}\vec{u} = proj_{c\vec{v}}\vec{u}$
+\end{enumerate}
+\item \textbf{Projection Onto a Subspace}: Let $S$ be a nonzero subspace with orthogonal basis $\lbrace \vec{v}_1,...,\vec{v}_k \rbrace$. Then the projection of $\vec{u}$ onto $S$ is given by $proj_S\vec{u} = \frac{\vec{v}_1 \cdot \vec{u}}{||\vec{v}_1||^2}\vec{v}_1 + \frac{\vec{v}_2 \cdot \vec{u}}{||\vec{v}_2||^2}\vec{v}_2 + ... + \frac{\vec{v}_k \cdot \vec{u}}{||\vec{v}_k||^2}\vec{v}_k$. This is just the sum of the projections of $\vec{u}$ onto each of the orthogonal basis vectors of $S$.
+\item \textbf{Subspace Projection Properties}: Let $S$ be a nonzero subspace of $\mathbb{R}^n$ with orthogonal basis $\lbrace \vec{v}_1,...,\vec{v}_k \rbrace$, and let $\vec{u}$ be a vector in $\mathbb{R}^n$. Then,
+\begin{enumerate}
+\item $proj_S\vec{u}$ is in $S$
+\item $\vec{u} - proj_S\vec{u}$ is orthogonal to $S$
+\item If $\vec{u}$ is in $S$ then $\vec{u} = proj_S\vec{u}$
+\item $proj_S\vec{u}$ is independent of the choice of orthogonal basis for $S$
+\end{enumerate}
+\item \textbf{The Gram-Schmidt Process}: This process is used to find an orthogonal basis for a subspace, given any basis for that subspace. Let $S$ be a subspace with basis $\lbrace \vec{s}_1,...,\vec{s}_k \rbrace$. Define $\vec{v}_1,...,\vec{v}_k$, in order, by 
+\begin{eqnarray*}
+\vec{v}_1 &=& \vec{s}_1 \\
+\vec{v}_2 &=& \vec{s}_2 - proj_{\vec{v}_1}\vec{s}_2 \\
+\vec{v}_3 &=& \vec{s}_3 - proj_{\vec{v}_1}\vec{s}_3 - proj_{\vec{v}_2}\vec{s}_3 \\
+\vdots &=& \vdots \\
+\vec{v}_k &=& \vec{s}_k - proj_{\vec{v}_1}\vec{s}_k - proj_{\vec{v}_2}\vec{s}_k - ... - proj_{\vec{v}_{k-1}}\vec{s}_k
+\end{eqnarray*}
+Then $\lbrace \vec{v}_1,\vec{v}_2,...,\vec{v}_k \rbrace$ is an orthogonal basis for $S$.
+\item \textbf{Orthonormal Set}: A set of vectors $\lbrace \vec{w}_1,...,\vec{w}_k \rbrace$ is orthonormal if the set is orthogonal and $||\vec{w}_i|| = 1$ for each of $i = 1,2,...,k$. The process of dividing a vector by its norm to get a unit vector is known as normalizing the vector.
+\end{enumerate}
+\subsection{Diagonalizing Symmetric Matrices}
+\begin{enumerate}
+\item \textbf{Diagonalizing Symmetric Matrices Process}:
+\begin{enumerate}
+\item Find eigenvalues; Matrix $D$ has eigenvalues along the diagonal
+\item Find corresponding eigenvectors; Matrix $P$ has eigen vectors as columns in same order as eigenvalues in $D$
+\end{enumerate}
+\textbf{Theorem}: If $A$ is a symmetric matrix, then eigenvectors associated with distinct eigenvalues are linearly independent and orthogonal.
+\item \textbf{Orthogonal Matrix}: A square matrix with \textit{orthonormal} columns. \\
+\textbf{Theorem}: If $P$ is an $n \times n$ orthogonal matrix, then $P^{-1} = P^T$.
+\item \textbf{Orthogonally Diagonalizable Matrix}: A square matrix $A$ is orthogonally diagonalizable if there exists an orthogonal matrix $P$ and a diagonal matrix $D$ such that $A = PDP^{-1}$. \\
+\textbf{Spectral Theorem}: A matrix $A$ is orthogonally diagonalizable if and only if $A$ is symmetric (the two are equivalent). All eigenvalues of a symmetric matrix are real. Each eigenspace of a symmetric matrix $A$ has dimension equal to the multiplicity of the associated eigenvalue.
+\item \textbf{Process}: Diagonalize the same way as usual, but for eigenspaces of more than one dimension, use Gram-Schmidt to make the eigenbasis orthogonal. Then, normalize all the eigenvectors before putting them in the $P$ matrix. Remember to use $A = PDP^{-1} = PDP^{T}$ because $P$ is an orthogonal matrix.\\
+\textbf{Theorem}: If $A$  is a real matrix, then $A^TA$ has nonnegative eigenvalues.
+\end{enumerate}
+\subsection{Singular Value Decomposition}
+This section was not covered.
+\subsection{Least-Squares Regression}
+\begin{enumerate}
+\item \textbf{Least Squares Solution}: Let $\vec{y}$ be a vector and $S$ a subspace. Then the vector closest to $\vec{y}$ in $S$ is given by $\hat{\vec{y}} = proj_S\vec{y}$. Given a linear system $A\vec{x} = \vec{y}$ that has no solutions, we find an approximate solution by solving $A\vec{x} = \hat{\vec{y}}$, where $\hat{\vec{y}} = proj_S\vec{y}$ and $S = col(A)$. This approach is called the least squares regression, or linear regression, and a solution $\hat{\vec{x}}$ to $A\vec{x} = \hat{\vec{y}}$ is called the least squares solution. The vector $\hat{\vec{x}}$ is such that $||A\hat{\vec{x}} - \vec{y}|| \leq ||A\vec{x} - \vec{y}||$ for all $\vec{x}$.
+\item \textbf{Finding Least-Squares Solution}: Using the above method requires that we use an orthogonal basis for $S$. Alternatively, the following method works for any basis of $S$. The set of least squares solutions to $A\vec{x} = \vec{y}$ is equal to the set of solutions to the system $A^TA\vec{x} = A^T\vec{y}$. If $A$ has linearly independent columns, then there is a unique least squares solution given by $\hat{\vec{x}} = (A^TA)^{-1}A^T\vec{y}$. Otherwise, there are infinitely many least squares solutions.
+\end{enumerate}
+\section{Chapter 9: Linear Transformations}
+\subsection{Definition and Properties}
+\begin{enumerate}
+\item \textbf{Linear Transformation}: Let $V$ and $W$ be vector spaces. Then $T: V \mapsto W$ is a linear transformation if for all $\vec{v}_1$ and $\vec{v}_2$ in $V$, and all real scalars $c$, the function $T$ satisfies: 
+\begin{enumerate}
+\item $T(\vec{v}_1 + \vec{v}_2) = T(\vec{v}_1) + T(\vec{v}_2)$
+\item $T(c \vec{v}_1) = cT(\vec{v}_1)$
+\end{enumerate}
+\item \textbf{Domain, Codomain}: For the linear transformation $T: V \mapsto W$, the vector space $V$ is the domain and the vector space $W$ is the  codomain.
+\item \textbf{Theorem to Test for a Linear Transformation}: $T: V \mapsto W$ is a linear transformation if and only if $$T(c_1 \vec{v}_1 + c_2 \vec{v}_2) = c_1 T(\vec{v}_1) + c_2 T(\vec{v}_2)$$ for all vectors $\vec{v}_1$ and $\vec{v}_2$ in $V$ and all real scalars $c_1$ and $c_2$.
+\item \textbf{Image}: If $\vec{v}$ is a vector in $V$, then $T(\vec{v})$ is the image of $\vec{v}$ under $T$.
+\item \textbf{Range}: The range of $T$ is denoted $range(T)$ and is the subset of $W$ consisting of all images of elements of $V$.
+\item \textbf{Kernel}: The kernel of $T$ is denoted $ker(T)$ and is the set of all elements $\vec{v} \in V$ such that $T(\vec{v}) = \vec{0}_W$.
+\item \textbf{One-to-one}: A linear transformation $T: V \mapsto W$ is one-to-one if for each $\vec{w} \in W$ there is \textit{at most} one $\vec{v} \in V$ such that $T(\vec{v}) = \vec{w}$.
+\item \textbf{Onto}: A linear transformation $T: V \mapsto W$ is onto if for each $w \in W$ there is \textit{at least} one $\vec{v} \in V$ such that $T(\vec{v}) = \vec{w}$.
+\item \textbf{Theorem for Determining One-to-one}: Let $T: V \mapsto W$ be a linear transformation. Then $T$ is one-to-one if and only if $ker(T) = \lbrace \vec{0}_V \rbrace$. In other words, the only vector in $V$ that maps to the zero vector in $W$ is the zero vector in $V$.
+\item \textbf{Theorem Relating Linearly Independent Vectors in Different Spaces}: Let $T: V \mapsto W$ be a linear transformation. Suppose that $\mathcal{V} = \lbrace \vec{v}_1,...,\vec{v}_m \rbrace$ is a subset of $V$, $\mathcal{W} = \lbrace \vec{w}_1,...,\vec{w}_m \rbrace$ is a subset of $W$, and $T(\vec{v}_i) = \vec{w}_i$ for $i = 1,...,m$. If $\mathcal{W}$ is linearly independent, then so is $\mathcal{V}$. Note, the reverse is not always true.
+\item \textbf{Generalizing the Rank-Nullity Theorem to Transformations}: Let $T: V \mapsto W$ be a linear transformation, with $V$ and $W$ finite dimensional. Then $dim(V) = dim(ker(T)) + dim(range(T))$.
+\item \textbf{Relating One-to-one, Onto, and Dimension}: Let $T: V \mapsto W$ be a linear transformation, with $V$ and $W$ finite dimensional. 
+\begin{enumerate}
+\item If $T$ is onto, then $dim(V) \geq dim(W)$.
+\item If $T$ is one-to-one, then $dim(V) \leq dim(W)$.
+\end{enumerate}
+\end{enumerate}
+\subsection{Isomorphisms}
+\begin{enumerate}
+\item \textbf{Isomorphism}: A linear transformation $T: V \mapsto W$ is an isomorphism if $T$ is both one-to-one and onto. If such an isomorphism exists, then we say that $V$ and $W$ are isomorphic vector spaces. 
+\item \textbf{Theorem on Isomorphic Spaces}: Vector spaces $V$ and $W$ are isomorphic if and only if $dim(V) = dim(W)$. Thus, for any two spaces with matching dimension, an isomorphism can be formed relating them.
+\item \textbf{Inverses, Invertible}: A linear transformation $T: V \mapsto W$ is invertible if $T$ is one-to-one and onto. When $T$ is invertible, the inverse function $T^{-1}: W \mapsto V$ is defined by $T^{-1}(\vec{w}) = \vec{v}$ if and only if $T(\vec{v}) = \vec{w}$.
+\end{enumerate}
+\subsection{The Matrix of a Linear Transformation}
+\begin{enumerate}
+\item \textbf{Coordinate Vector}: Let $V$ be a vector space with basis $\mathcal{G} = \lbrace \vec{g}_1,...,\vec{g}_m \rbrace$. For each $\vec{v} = c_1 \vec{g}_1 + ... + c_m \vec{g}_m$ in $V$, we define the coordinate vector $\vec{v}$ with respect to $\mathcal{G}$ by $\vec{v}_{\mathcal{G}} = \begin{bmatrix}
+c_1 \\
+\vdots \\
+c_m
+\end{bmatrix}_{\mathcal{G}}$.
+\item \textbf{Matrix of a Linear Transformation}: Let $T: V \mapsto W$ be a linear transformation, $\mathcal{G} = \lbrace \vec{g}_1,...,\vec{g}_m \rbrace$ be a basis of $V$, $\mathcal{Q} = \lbrace \vec{q}_1,...,\vec{q}_m \rbrace$ be a basis of $W$. If $A = \begin{bmatrix}
+\vec{a}_1 & ... & \vec{a}_m
+\end{bmatrix}$ with $\vec{a}_i = [T(\vec{g}_i)]_{\mathcal{Q}}$ for each $i = 1,...,m$, then $A$ is the matrix of $T$ with respect to $\mathcal{G}$ and $\mathcal{Q}$. It is also simply called the transformation matrix.
+\item \textbf{Inverses}: Let $T: V \mapsto W$ be a function where with transformation matrix $A$ with respect to bases $\mathcal{G}$ and  $\mathcal{Q}$ gives $A\vec{v}_{\mathcal{G}} = \vec{w}_{\mathcal{Q}}$. Then $A^{-1}$ is the inverse transformation matrix, or the transformation matrix with respect to bases $\mathcal{Q}$ and $\mathcal{G}$ which gives $A^{-1}\vec{w}_{\mathcal{Q}} = \vec{v}_{\mathcal{G}}$.
+\end{enumerate}
+\section{Chapter 10: Inner Product Spaces}
+\subsection{Inner Products}
+\begin{enumerate}
+\item \textbf{Inner Product, Inner Product Space}: Let $\vec{u}, \vec{v}$, and $\vec{w}$ be elements of a vector space $V$, and let $c$ be a scalar. An inner product on $V$ is a function that takes two vectors in $V$ as input and produces a scalar as output. An inner product function is denoted by $\langle \vec{u},\vec{v}\rangle$ and must satisfy the following conditions:
+\begin{enumerate}
+\item $\langle \vec{u},\vec{v}\rangle = \langle \vec{v},\vec{u}\rangle$
+\item $\langle \vec{u} + \vec{v}, \vec{w} \rangle = \langle \vec{u},\vec{w}\rangle + \langle \vec{v},\vec{w}\rangle$
+\item $\langle c\vec{u},\vec{v} \rangle = \langle \vec{v}, c\vec{u} \rangle = c \langle \vec{v}, \vec{u} \rangle$
+\item $\langle \vec{u}, \vec{u} \rangle \geq 0$, and $\langle \vec{u}, \vec{u} \rangle = 0$ only when $\vec{u} = \vec{0}_V$
+\end{enumerate}
+A vector space $V$ with an inner product defined on it is called an inner product space.
+\item \textbf{Orthogonal Vectors}: Two vectors $\vec{u}$ and $\vec{v}$ in an inner product space $V$ are orthogonal if and only if $\langle \vec{u}, \vec{v} \rangle = 0$.
+\item \textbf{Norm of a Vector}: Let $\vec{v}$ be a vector in an inner product space $V$. Then the norm of $\vec{v}$ is given by $||\vec{v}|| = \sqrt{\langle \vec{v}, \vec{v} \rangle}$.
+\item \textbf{Pythagorean Theorem}: Let $\vec{u}$ and $\vec{v}$ be vectors in an inner product space $V$. Then $\vec{u}$ and $\vec{v}$ are orthogonal if and only if $||\vec{u}||^2 + ||\vec{v}||^2 = ||\vec{u}+\vec{v}||^2$.
+\item \textbf{Projection Onto a Vector}: Let $\vec{u}$ and $\vec{v}$ be vectors in an inner product space $V$ with $\vec{v}$ nonzero. Then the projection of $\vec{u}$ onto $\vec{v}$ is given by
+$$proj_{\vec{v}}\vec{u} = \frac{\langle \vec{v}, \vec{u} \rangle}{\langle \vec{v}, \vec{v} \rangle}\vec{v} = \frac{\langle \vec{v}, \vec{u} \rangle}{||\vec{v}||^2}\vec{v}$$
+The same projection properties from vectors in $\mathbb{R}^n$ generalize trivially to arbitrary vector spaces.
+\item \textbf{The Cauchy-Schwarz Inequality}: For all $\vec{u}$ and $\vec{v}$ in an inner product space $V$, $|\langle \vec{u}, \vec{v} \rangle| \leq ||\vec{u}||*||\vec{v}||$.
+\item \textbf{The Triangle Inequality}: For all $\vec{u}$ and $\vec{v}$ in an inner product space $V$, $||\vec{u} + \vec{v}|| \leq ||\vec{u}|| + ||\vec{v}||$.
+\end{enumerate}
+\subsection{The Gram-Schmidt Process Revisited}
+\begin{enumerate}
+\item \textbf{Orthogonal Set}: The vectors $\lbrace \vec{v}_1, ..., \vec{v}_k \rbrace$ in an inner product space $V$ form an orthogonal set if $\langle \vec{v}_i, \vec{v}_j \rangle = 0$ for $i \neq j$.
+\item \textbf{Orthogonal and Linearly Independent Vectors}: Let $\mathcal{V} = \lbrace \vec{v}_1, ..., \vec{v}_m \rbrace$ be an orthogonal set of nonzero vectors in an inner product space $V$. Then $\mathcal{V}$ is linearly independent.
+\item \textbf{Orthogonal Basis}: An orthogonal set of vectors that forms a basis for an inner product space is called an orthogonal basis.
+\item \textbf{Orthonormal Basis}: A set of basis vectors for a space where the norm of each vector is 1.
+\item \textbf{Projection onto a Subspace}: Let $S$ be a subspace of an inner product space $V$, and suppose that $S$ has orthogonal basis $\lbrace \vec{v}_1,...,\vec{v}_k \rbrace$. Then the projection of $\vec{v}$ onto $S$ is given by
+$$proj_S\vec{v} = \frac{\langle \vec{v}_1,\vec{v} \rangle}{\langle \vec{v}_1,\vec{v}_1 \rangle}\vec{v}_1 + ... + \frac{\langle \vec{v}_k,\vec{v} \rangle}{\langle \vec{v}_k,\vec{v}_k \rangle}\vec{v}_k$$
+\item \textbf{The Gram-Schmidt Process}: Let $S$ be a subspace with basis $\lbrace \vec{s}_1,...\vec{s}_k \rbrace$. Define $\vec{v}_1,...,\vec{v}_k$, in order , by
+\begin{eqnarray*}
+\vec{v}_1 &=& \vec{s}_1 \\
+\vec{v}_2 &=& \vec{s}_2 - proj_{\vec{v}_1}\vec{s}_2 \\
+\vec{v}_3 &=& \vec{s}_3 - proj_{\vec{v}_1}\vec{s}_3 - proj_{\vec{v}_2}\vec{s}_3 \\
+\vdots &=& \vdots \\
+\vec{v}_k &=& \vec{s}_k - proj_{\vec{v}_1}\vec{s}_k - ... - proj_{\vec{v}_{k-1}}\vec{s}_k
+\end{eqnarray*}
+From this orthogonal basis $\lbrace \vec{v}_1, ..., \vec{v}_k \rbrace$ we can find an orthonormal basis $\lbrace \vec{w}_1,...,\vec{w}_k \rbrace$ by setting $\vec{w}_i = \frac{\vec{v}_i}{||\vec{v}_i||}$ for $i = 1,...,k$.
+\end{enumerate}
+\subsection{Applications of Inner Products}
+\begin{enumerate}
+\item \textbf{Weighted Least Squares Regression}: 
+\begin{enumerate}
+\item \textbf{Theorem}: Let $S$ be a finite-dimensional subspace of an inner product space $V$, and suppose that $\vec{v} \in V$. Then the closest vector in $S$ to $\vec{v}$ is given by $proj_{S}\vec{v}$. That is, $||\vec{v} - proj_S\vec{v}|| \leq ||\vec{v}-\vec{s}||$ for all $\vec{s} \in S$, with equality holding exactly when $\vec{s} = proj_S\vec{v}$.
+\item \textbf{Weighted Least Squares Regression}: We do the same process as we did for normal least squares regressions, except now we are trying to minimize $t_1(y_1-\hat{y_1}) + t_2(y_2-\hat{y_2}) + ... + t_n(y_n-\hat{y_n})$, where $t_1,t_2,...,t_n$ are positive weights that tell us which data points should influence the linear regression the most.
+\item \textbf{Process}: First, set matrix $A = \begin{bmatrix}
+1 & x_1 \\
+1 & x_2 \\
+\vdots & \vdots \\
+1 & x_n
+\end{bmatrix}$. Then, set $\hat{\vec{y}} = proj_S\vec{y}$, where $S = col(A)$. Lastly, solve the equation $\hat{\vec{y}} = A\vec{x}$ for $\vec{x} = \begin{bmatrix}
+c_0 \\
+c_1
+\end{bmatrix}$.
+\end{enumerate}
+\item \textbf{Fourier Approximations}: 
+\begin{enumerate}
+\item \textbf{Theorem}: For each integer $k \geq 1$, the set $\lbrace 1,cos(x), cos(2x),..., cos(kx), sin(x), sin(2x), ..., sin(kx) \rbrace$ is orthogonal in $V = C[-\pi,\pi]$ with the inner product $\langle f,g \rangle = \frac{1}{\pi} \int_{-\pi}^{\pi}f(x)g(x)dx$.
+\item \textbf{$\mathbf{n^{th}}$ Order Fourier Approximation}: If $F_n$ is the subspace of $V=C[-\pi,\pi]$ spanned by the orthogonal basis given above, then the best approximation to $F_n$ by any function $f \in V$ is given by 
+$$f_n(x) = proj_{F_n}f = a_0 + a_1cos(x) + ... + a_ncos(nx) + b_1sin(x) + ... + b_nsin(nx)$$
+This function $f_n(x)$ is called the $n^{th}$ order Fourier approximation of $f$. Since the basis functions of $F_n$ are orthogonal, from the projection formula and appropriate simplifications we have for the Fourier coefficients:
+$$a_k = \frac{\langle f,cos(kx) \rangle}{\langle cos(kx),cos(kx) \rangle} = \frac{1}{\pi} \int_{-\pi}^{\pi}f(x)cos(kx)dx\ \ (k \geq 1)$$ 
+$$b_k = \frac{\langle f,sin(kx) \rangle}{\langle sin(kx),sin(kx) \rangle} = \frac{1}{\pi} \int_{-\pi}^{\pi}f(x)sin(kx)dx\ \ (k \geq 1),\ and$$
+$$a_0 = \frac{1}{2\pi} \int_{-\pi}^{\pi}f(x)dx$$
+\item \textbf{Fourier Series}: If the Fourier coefficients decrease in size sufficiently quickly, then we can extend the $n^{th}$ order Fourier approximation $f_n$ to a Fourier series
+$$a_0 + \sum_{k=1}^{\infty}(a_kcos(kx) + b_ksin(kx))$$
+which under the right conditions is \textbf{equal} to $f(x)$.
+\end{enumerate}
+\end{enumerate}
+\section{Chapter 11: Additional Topics and Applications}
+\subsection{Quadratic Forms}
+\begin{enumerate}
+\item \textbf{Quadratic Form}: A quadratic form is a function $Q: \mathbb{R}^n \mapsto \mathbb{R}$ that has the form $Q(\vec{x}) = \vec{x}^TA\vec{x}$ where $A$ is an $n \times n$ symmetric matrix called the matrix of the quadratic form.
+\item \textbf{Principle Axes Theorem}: If $A$ is a symmetric matrix, then there exists an orthogonal matrix $P$ such that the transformation $\vec{y} = P^T\vec{x}$ changes the quadratic form $\vec{x}^TA\vec{x}$ into the quadratic form $\vec{y}^TD\vec{y}$ (where $D$ is diagonal) that has no cross-product terms. 
+\item \textbf{Finding Quadratic Form with No Cross-Product Terms}: Orthogonally diagonalize the matrix $A$, the matrix of the quadratic form. Then, we know that the new quadratic form is uses the diagonal matrix of $A$'s eigenvalues, $D$, and the vectors we apply the quadratic form to underwent multiplication by the transpose of the orthogonal matrix of eigenvectors, $P^T$.
+\item \textbf{Quadratic Form Classifications}: Let $Q(\vec{x}) = \vec{x}^TA\vec{x}$ be a quadratic form.
+\begin{enumerate}
+\item $Q$ is \textbf{positive definite} if $Q(\vec{x}) > 0$ for all nonzero vectors $\vec{x} \in \mathbb{R}^n$, and $Q$ is \textbf{positive semidefinite} if $Q(\vec{x}) \geq 0$ for all nonzero vectors $\vec{x} \in \mathbb{R}^n$.
+\item $Q$ is \textbf{negative definite} if $Q(\vec{x}) < 0$ for all nonzero vectors $\vec{x} \in \mathbb{R}^n$, and $Q$ is \textbf{negative semidefinite} if $Q(\vec{x}) \leq 0$ for all nonzero vectors $\vec{x} \in \mathbb{R}^n$.
+\item $Q$ is \textbf{indefinite} if $Q(\vec{x})$ is positive for some $\vec{x}$ and negative for other $\vec{x}$ with $\vec{x} \in \mathbb{R}^n$.
+\end{enumerate}
+\item \textbf{Eigenvalue Theorem}: Let $A$ be an $n \times n$ symmetric matrix and suppose that $Q(\vec{x}) = \vec{x}^TA\vec{x}$. Then,
+\begin{enumerate}
+\item $Q$ is positive definite exactly when $A$ has only positive eigenvalues.
+\item $Q$ is negative definite exactly when $A$ has only negative eigenvalues.
+\item $Q$ is indefinite exactly when $A$ has positive and negative eigenvalues.
+\end{enumerate}
+\end{enumerate}
+\end{document}
