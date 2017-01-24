@@ -1,0 +1,11 @@
+Number of Systems: 3
+Number of Equations/Variables in System 1: 2
+2x-5y=22
+3x+7y=-25
+Number of Equations/Variables in System 2: 3
+2x + y + 3z = 1
+2x + 6y + 8z = 3
+6x + 8y + 18z=5
+Number of Equations/Variables in System 3: 2
+x + y = 6
+x - y = 2

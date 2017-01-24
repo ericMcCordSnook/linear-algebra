@@ -1,0 +1,15 @@
+List of Updates
+
+1. Allow equations with missing variables and variables in different orders (do 3 and 4 first)
+	a) take all variables present into an array
+	b) associate coefficients with variables
+	c) assign a value of 0 any missing variables
+	d) print solution as "variable = value"
+	
+2. Allow doubles as coefficients on a system-by-system basis (do 5 first)
+
+5. DoubleFrac class extends Fraction
+
+6. Develop polynomial class to hold an entire equation
+
+7. Develop equation class to manipulate an equation to solve for a variable analytically
